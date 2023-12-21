@@ -643,7 +643,8 @@ if ${NONFREE_AND_GPL}; then
         execute ./Configure --prefix="${WORKSPACE}" no-shared no-asm darwin64-arm64-cc
       else
 
-        execute ./config --prefix="${WORKSPACE}" --openssldir="${WORKSPACE}" --with-zlib-include="${WORKSPACE}"/include/ --with-zlib-lib="${WORKSPACE}"/lib no-shared zlib
+        #execute ./config --prefix="${WORKSPACE}" --openssldir="${WORKSPACE}" --with-zlib-include="${WORKSPACE}"/include/ --with-zlib-lib="${WORKSPACE}"/lib no-shared zlib
+        execute ./Configure --prefix="${WORKSPACE}" --openssldir="${WORKSPACE}" --with-zlib-include="${WORKSPACE}"/include/ --with-zlib-lib="${WORKSPACE}"/lib no-shared zlib linux-armv4
       fi
       execute make -j ${MJOBS}
       execute make install_sw
