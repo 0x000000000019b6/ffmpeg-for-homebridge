@@ -23,6 +23,8 @@ CURRENT_PACKAGE_VERSION=0
 AUTOINSTALL="no"
 SKIPINSTALL="yes"
 
+# sudo apt install libopencore-amrnb-dev libopencore-amrwb-dev
+
 # Are we targetting Apple Silicon?
 isAppleSilicon() {
 
@@ -319,7 +321,9 @@ usage() {
   echo "  -h, --help                     Display usage information"
   echo "      --version                  Display version information"
   echo "  -b, --build                    Starts the build process"
+  echo "      --install                  Install after build"
   echo "      --enable-gpl-and-non-free  Enable GPL and non-free codecs  - https://ffmpeg.org/legal.html"
+  echo "      --enable-alsa              Enable Advanced Linux Sound Architecture"
   echo "  -c, --cleanup                  Remove all working dirs"
   echo "      --latest                   Build latest version of dependencies if newer available"
   echo "      --small                    Prioritize small size over speed and usability; don't build manpages"
@@ -354,10 +358,21 @@ while (($# > 0)); do
         bflag='-b'
       fi
 
+      if [[ "$1" == "--install" ]]; then
+
+        AUTOINSTALL="yes"
+
+      fi
+
       if [[ "$1" == "--enable-gpl-and-non-free" ]]; then
 
         CONFIGURE_OPTIONS+=("--enable-nonfree" "--enable-gpl")
         NONFREE_AND_GPL=true
+      fi
+
+      if [[ "$1" == "--enable-alsa" ]]; then
+
+        CONFIGURE_OPTIONS+=("--enable-alsa")
       fi
 
       if [[ "$1" == "--cleanup" || "$1" =~ '-c' && ! "$1" =~ '--' ]]; then
@@ -1130,6 +1145,8 @@ if build "opus" "1.4"; then
 fi
 
 CONFIGURE_OPTIONS+=("--enable-libopus")
+
+CONFIGURE_OPTIONS+=("--enable-pcm_s32le")
 
 if ! isLinux; then
 
