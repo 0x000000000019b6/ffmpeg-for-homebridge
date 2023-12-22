@@ -23,7 +23,36 @@ CURRENT_PACKAGE_VERSION=0
 AUTOINSTALL="no"
 SKIPINSTALL="yes"
 
-# sudo apt install libopencore-amrnb-dev libopencore-amrwb-dev ninja-build
+# sudo apt-get update -qq && sudo apt-get -y install \
+#   autoconf \
+#   automake \
+#   build-essential \
+#   cmake \
+#   git-core \
+#   libass-dev \
+#   libfreetype6-dev \
+#   libgnutls28-dev \
+#   libmp3lame-dev \
+#   libsdl2-dev \
+#   libtool \
+#   libva-dev \
+#   libvdpau-dev \
+#   libvorbis-dev \
+#   libxcb1-dev \
+#   libxcb-shm0-dev \
+#   libxcb-xfixes0-dev \
+#   meson \
+#   ninja-build \
+#   pkg-config \
+#   texinfo \
+#   wget \
+#   yasm \
+#   zlib1g-dev \
+#   libunistring-dev \
+#   libaom-dev \
+#   libdav1d-dev
+
+# sudo apt install libopencore-amrnb-dev libopencore-amrwb-dev
 
 install_packages() {
     # Update package lists
@@ -37,7 +66,7 @@ install_packages() {
     done
 }
 
-install_packages libopencore-amrnb-dev libopencore-amrwb-dev ninja-build
+install_packages autoconf automake build-essential cmake git-core libass-dev libfreetype6-dev libgnutls28-dev libmp3lame-dev libsdl2-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev meson ninja-build pkg-config texinfo wget yasm zlib1g-dev libunistring-dev libaom-dev libdav1d-dev libopencore-amrnb-dev libopencore-amrwb-dev
 
 # Are we targetting Apple Silicon?
 isAppleSilicon() {
