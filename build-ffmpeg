@@ -23,7 +23,21 @@ CURRENT_PACKAGE_VERSION=0
 AUTOINSTALL="no"
 SKIPINSTALL="yes"
 
-# sudo apt install libopencore-amrnb-dev libopencore-amrwb-dev
+# sudo apt install libopencore-amrnb-dev libopencore-amrwb-dev ninja-build
+
+install_packages() {
+    # Update package lists
+    sudo apt update
+
+    # Install each package passed as an argument
+    for package in "$@"
+    do
+        echo "Installing $package..."
+        sudo apt install "$package" -y
+    done
+}
+
+install_packages libopencore-amrnb-dev libopencore-amrwb-dev ninja-build
 
 # Are we targetting Apple Silicon?
 isAppleSilicon() {
@@ -643,8 +657,7 @@ if ${NONFREE_AND_GPL}; then
         execute ./Configure --prefix="${WORKSPACE}" no-shared no-asm darwin64-arm64-cc
       else
 
-        #execute ./config --prefix="${WORKSPACE}" --openssldir="${WORKSPACE}" --with-zlib-include="${WORKSPACE}"/include/ --with-zlib-lib="${WORKSPACE}"/lib no-shared zlib
-        execute ./Configure --prefix="${WORKSPACE}" --openssldir="${WORKSPACE}" --with-zlib-include="${WORKSPACE}"/include/ --with-zlib-lib="${WORKSPACE}"/lib no-shared zlib linux-armv4
+        execute ./config --prefix="${WORKSPACE}" --openssldir="${WORKSPACE}" --with-zlib-include="${WORKSPACE}"/include/ --with-zlib-lib="${WORKSPACE}"/lib no-shared zlib
       fi
       execute make -j ${MJOBS}
       execute make install_sw
@@ -723,14 +736,14 @@ if command_exists "python3"; then
       # meson and ninja can be installed via pip3
       execute pip3 install pip setuptools --quiet --upgrade --no-cache-dir --disable-pip-version-check
 
-      for r in meson ninja; do
+      for r in wheel meson ninja; do
 
         if ! command_exists ${r}; then
 
           execute pip3 install ${r} --quiet --upgrade --no-cache-dir --disable-pip-version-check
         fi
 
-        export PATH=${PATH}:~/Library/Python/3.9/bin
+        export PATH=${PATH}:~/Library/Python/3.11/bin
       done
     fi
   fi
