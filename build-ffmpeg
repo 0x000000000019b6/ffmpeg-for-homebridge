@@ -6,8 +6,8 @@
 # LICENSE: https://github.com/markus-perl/ffmpeg-build-script/blob/master/LICENSE
 #
 PROGNAME=$(basename "$0")
-FFMPEG_VERSION=6.0
-SCRIPT_VERSION=1.46
+FFMPEG_VERSION=6.1
+SCRIPT_VERSION=1.50
 CWD=$(pwd)
 PACKAGES="${CWD}/packages"
 WORKSPACE="${CWD}/workspace"
@@ -65,8 +65,6 @@ install_packages() {
         sudo apt install "$package" -y
     done
 }
-
-install_packages autoconf automake build-essential cmake git-core libass-dev libfreetype6-dev libgnutls28-dev libmp3lame-dev libsdl2-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev meson ninja-build pkg-config texinfo wget yasm zlib1g-dev libunistring-dev libaom-dev libdav1d-dev libopencore-amrnb-dev libopencore-amrwb-dev
 
 # Are we targetting Apple Silicon?
 isAppleSilicon() {
@@ -565,6 +563,8 @@ if [[ "${TARGET_OS}" == "raspbian" ]]; then
 fi
 
 if ! isLinux; then
+
+  install_packages autoconf automake build-essential cmake git-core libass-dev libfreetype6-dev libgnutls28-dev libmp3lame-dev libsdl2-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev meson ninja-build pkg-config texinfo wget yasm zlib1g-dev libunistring-dev libaom-dev libdav1d-dev libopencore-amrnb-dev libopencore-amrwb-dev
 
   if build "giflib" "5.2.1"; then
 
@@ -1189,7 +1189,7 @@ fi
 
 CONFIGURE_OPTIONS+=("--enable-libopus")
 
-CONFIGURE_OPTIONS+=("--enable-pcm_s32le")
+# CONFIGURE_OPTIONS+=("--enable-pcm_s32le")
 
 if ! isLinux; then
 
@@ -1482,7 +1482,7 @@ fi
 ## FFmpeg
 ##
 
-EXTRA_VERSION="homebridge-${TARGET_OS}-${TARGET_ARCH}"
+EXTRA_VERSION="homekit-${TARGET_OS}-${TARGET_ARCH}"
 
 if [ -n "${LDEXEFLAGS}" ]; then
 
@@ -1543,15 +1543,15 @@ INSTALL_FOLDER="/usr"  # not recommended, overwrites system ffmpeg package
 if [[ "${TARGET_OS}" == "darwin" ]]; then
 
   INSTALL_FOLDER="/usr/local"
-else
+# else
 
-  if [ -d "${HOME}/.local" ]; then  # systemd-standard user path
+#   if [ -d "${HOME}/.local" ]; then  # systemd-standard user path
 
-    INSTALL_FOLDER="${HOME}/.local"
-  elif [ -d "/usr/local" ]; then
+#     INSTALL_FOLDER="${HOME}/.local"
+#   elif [ -d "/usr/local" ]; then
 
-    INSTALL_FOLDER="/usr/local"
-  fi
+#     INSTALL_FOLDER="/usr/local"
+#   fi
 fi
 
 verify_binary_type
